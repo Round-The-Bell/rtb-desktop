@@ -1,0 +1,49 @@
+
+ /* Add this to your global CSS file */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+ 
+
+/* Global styles using theme colors */
+body {
+  font-family: var(--font-body);
+  color: var(--color-primary-dark);
+  background-color: var(--color-neutral-white);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-primary-dark);
+}
+
+/* Utility classes */
+.gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.gradient-accent {
+  background: var(--gradient-accent);
+}
+
+.text-gradient {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Example usage in components */
+.hero-section {
+  background: var(--gradient-hero);
+}
+
+.accent-button {
+  background-color: var(--color-accent);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.accent-button:hover {
+  background-color: var(--color-accent-dark);
+  box-shadow: 0 4px 14px rgba(74, 154, 168, 0.3);
+}

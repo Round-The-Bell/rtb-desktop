@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
+/* src/app.css - Improved Color Theme */
+ 
+@theme {
+  /* ===== REFRESHED COLOR PALETTE ===== */
+  
+  /* Primary - Rich Navy Blues */
+  --color-primary-dark: #0f172a;      /* Rich dark navy */
+  --color-primary: #1e293b;           /* Navy */
+  --color-primary-light: #334155;     /* Lighter navy */
+  
+  /* Accent - Vibrant Teal/Turquoise */
+  --color-accent-dark: #0891b2;      /* Deep turquoise */
+  --color-accent: #06b6d4;           /* Bright cyan */
+  --color-accent-light: #22d3ee;     /* Light cyan */
+  --color-accent-pale: #a5f3fc;      /* Pale cyan */
+  
+  /* Secondary - Warm Accents */
+  --color-secondary-orange: #fb923c;  /* Warm orange */
+  --color-secondary-coral: #f87171;   /* Coral red */
+  --color-secondary-gold: #fbbf24;    /* Golden yellow */
+  --color-secondary-green: #4ade80;   /* Fresh green */
+  
+  /* Neutrals - Better contrast */
+  --color-neutral-white: #ffffff;
+  --color-neutral-off-white: #f8fafc;
+  --color-neutral-light-gray: #f1f5f9;
+  --color-neutral-gray: #64748b;
+  --color-neutral-dark-gray: #475569;
+  --color-neutral-black: #020617;
+  
+  /* Background variations */
+  --color-bg-light: #ffffff;
+  --color-bg-section: #f8fafc;
+  --color-bg-accent: #e0f2fe;
+  
+  /* Semantic colors */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+  
+  /* ===== SPACING ===== */
+  --spacing-section: 6rem;
+  --spacing-container: 7rem;
+  
+  /* ===== SHADOWS ===== */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-accent: 0 10px 25px -5px rgb(6 182 212 / 0.25);
+  --shadow-card: 0 4px 20px 0 rgb(0 0 0 / 0.05);
+}
+
+/* ===== GRADIENT UTILITIES ===== */
+@layer utilities {
+  /* Brand gradients */
+  .gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  }
+  
+  .gradient-accent {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  }
+  
+  .gradient-vibrant {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary-coral) 100%);
+  }
+  
+  .gradient-warm {
+    background: linear-gradient(135deg, var(--color-secondary-orange) 0%, var(--color-secondary-gold) 100%);
+  }
+  
+  .gradient-hero {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 182, 212, 0.85) 100%);
+  }
+  
+  .gradient-section {
+    background: linear-gradient(180deg, var(--color-bg-section) 0%, var(--color-bg-accent) 100%);
+  }
+  
+  /* Card styles with better shadows */
+  .card {
+    @apply bg-white rounded-xl p-6 transition-all duration-300;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Section spacing */
+  .section {
+    @apply py-24 px-4;
+  }
+  
+  /* Button improvements */
+  .btn-primary {
+    @apply px-8 py-4 rounded-lg font-semibold text-white transition-all duration-200;
+    background: var(--color-accent);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn-primary:hover {
+    background: var(--color-accent-dark);
+    box-shadow: var(--shadow-accent);
+    transform: translateY(-2px);
+  }
+  
+  .btn-secondary {
+    @apply px-8 py-4 rounded-lg font-semibold transition-all duration-200;
+    background: white;
+    color: var(--color-primary-dark);
+    border: 2px solid var(--color-accent);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--color-accent-pale);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+}
