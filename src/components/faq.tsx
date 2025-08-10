@@ -18,7 +18,7 @@ function FAQ() {
     {
       id: '3',
       question: 'How do I get in contact with you?',
-      answer: 'You can reach us by calling (910) 759-9483 or by filling out our estimate form. We typically respond within 24 hours.'
+      answer: 'You can reach us by calling ‪(919) 275-0763‬ or by filling out our estimate form. We typically respond within 24 hours.'
     },
     {
       id: '4',

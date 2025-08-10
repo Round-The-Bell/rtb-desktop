@@ -1,9 +1,13 @@
 // src/components/EstimateForm.tsx
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Button, Label, TextInput, Textarea, Select, Radio, Checkbox, FileInput } from 'flowbite-react';
+import { Button, Label, TextInput, Textarea, Select, Radio, Checkbox, FileInput, Toast, ToastToggle } from 'flowbite-react';
 import { EstimateFormData } from '@/types';
-
+import { HiX, HiExclamation } from 'react-icons/hi';
+import { HiCheck } from 'react-icons/hi2';
+import { estimateService } from '@/services/estimation-service';
+import { env } from '@/config';
+ 
 interface EstimateFormProps {
   selectedService?: string;
 }
@@ -31,6 +35,21 @@ function EstimateForm({ selectedService }: EstimateFormProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<'success' | 'error' | 'warning'>('success');
+    const { appPhone:companyNumber} = env;
+
+  const showNotification = (message: string, type: 'success' | 'error' | 'warning') => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+    
+    // Auto-hide toast after 5 seconds
+    setTimeout(() => {
+      setShowToast(false);
+    }, 5000);
+  };
 
   // Update serviceType when selectedService prop changes
   useEffect(() => {
@@ -47,7 +66,6 @@ function EstimateForm({ selectedService }: EstimateFormProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
@@ -66,16 +84,57 @@ function EstimateForm({ selectedService }: EstimateFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 3000);
+    try {
+      // Validate phone number
+      if (!estimateService.validatePhoneNumber(formData.phone)) {
+        showNotification('Please enter a valid phone number', 'error');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Format phone number before submission
+      const formattedData = {
+        ...formData,
+        phone: estimateService.formatPhoneNumber(formData.phone),
+      };
+
+      // Submit the form
+      const response = await estimateService.submitEstimate(formattedData);
+      
+      if (response.success) {
+        setSubmitSuccess(true);
+        showNotification('Your estimate request has been submitted successfully!', 'success');
+        
+        // Reset form after 5 seconds
+        setTimeout(() => {
+          setFormData({
+            firstName: '',
+            lastName: '',
+            companyName: '',
+            email: '',
+            phone: '',
+            consentEmail: false,
+            consentSMS: false,
+            street1: '',
+            street2: '',
+            city: '',
+            state: 'NC',
+            zipCode: '',
+            serviceType: '',
+            projectDescription: '',
+            preferredDay: '',
+            alternateDay: '',
+            preferredTime: 'any',
+          });
+          setSubmitSuccess(false);
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      showNotification(`There was an error submitting your request. Please try calling us at: ${companyNumber}`, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const createContactSection = () => (
@@ -243,7 +302,7 @@ function EstimateForm({ selectedService }: EstimateFormProps) {
             id="city"
             name="city"
             type="text"
-            placeholder="Raleigh"
+            placeholder="Fuquay-Varina"
             value={formData.city}
             onChange={handleInputChange}
             required
@@ -482,6 +541,25 @@ function EstimateForm({ selectedService }: EstimateFormProps) {
 
   return (
     <section id="estimate" className="section bg-neutral-off-white">
+      {/* Toast Notifications */}
+      {showToast && (
+        <div className="fixed top-5 right-5 z-50">
+          <Toast>
+            <div className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+              toastType === 'success' ? 'bg-green-100 text-green-500' :
+              toastType === 'error' ? 'bg-red-100 text-red-500' :
+              'bg-yellow-100 text-yellow-500'
+            }`}>
+              {toastType === 'success' && <HiCheck className="h-5 w-5" />}
+              {toastType === 'error' && <HiX className="h-5 w-5" />}
+              {toastType === 'warning' && <HiExclamation className="h-5 w-5" />}
+            </div>
+            <div className="ml-3 text-sm font-normal">{toastMessage}</div>
+            <ToastToggle onDismiss={() => setShowToast(false)} />
+          </Toast>
+        </div>
+      )}
+      
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

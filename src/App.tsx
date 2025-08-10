@@ -1,5 +1,5 @@
 // src/App.tsx - Make sure header is visible
- import { useState } from 'react';
+import { useState } from 'react';
 import About from './components/about';
 import EstimateForm from './components/estimateForm';
 import FAQ from './components/faq';
@@ -8,17 +8,17 @@ import GoogleReviews from './components/googleReview';
 import Header from './components/header';
 import Hero from './components/hero';
 import Services from './components/services';
-import Specialties from './components/specialties';
 import { CompanyInfo } from './types';
- 
+import Projects from './components/projects';
+
 function App() {
-    const [selectedService, setSelectedService] = useState<string>('');
+  const [selectedService, setSelectedService] = useState<string>('');
 
   const companyInfo: CompanyInfo = {
     name: 'Round The Bell Construction',
     tagline: 'Service that rings loud and clear',
-    email:  'admin@roundthebell.com',
-    phone: '(910) 759-9483',
+    email: 'admin@roundthebell.com',
+    phone: '‪(919) 275-0763‬',
     address: {
       city: 'Raleigh',
       state: 'NC',
@@ -33,12 +33,12 @@ function App() {
       <Header companyInfo={companyInfo} />
       <main>
         <Hero companyInfo={companyInfo} />
-        <Specialties />
-      <Services onServiceSelect={setSelectedService} />
+        <Projects />
+        <Services onServiceSelect={setSelectedService} />
         <GoogleReviews />
         <About companyInfo={companyInfo} />
         <FAQ />
-      <EstimateForm selectedService={selectedService} />
+        <EstimateForm selectedService={selectedService} />
       </main>
       <Footer companyInfo={companyInfo} />
     </div>
